@@ -60,5 +60,30 @@ namespace AppLibros.Clases.Servicios
 
             return libros[0];
         }
+
+        public async Task InsertarLibro(Libro libro)
+        {
+            string ContentType = "application/x-www-form-urlencoded";
+
+            System.Console.WriteLine("Titulo=" + libro.Titulo);
+            System.Console.WriteLine("Autor=" + libro.Autor);
+            System.Console.WriteLine("Descripcion=" + libro.Descripcion);
+            System.Console.WriteLine("Imagen=" + libro.Imagen);
+
+            string parametros = String.Format("Titulo={0}&Autor={1}&Descripcion={2}&Imagen={3}", libro.Titulo, libro.Autor, libro.Descripcion, libro.Imagen);
+
+            System.Console.WriteLine("datos=" + parametros);
+
+            HttpResponseMessage res = await httpClient.PostAsync(servicioURL + "/libro/agregar/", new StringContent(parametros, Encoding.UTF8, ContentType));
+
+            if(res.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                System.Console.WriteLine("Funciona - Status Code: OK");
+            }
+            else
+            {
+                System.Console.WriteLine("Error - Status Code: " + res.StatusCode.ToString());
+            }
+        }
     }
 }
